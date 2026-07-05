@@ -1,0 +1,32 @@
+#ifndef QSIM_H
+#define QSIM_H
+
+typedef struct{
+    double real;
+    double imaginary;
+}Complex;
+
+
+
+typedef struct{
+    int num_of_qbits;
+    int state_size;
+    Complex *state;
+}Quantom_register;
+
+
+Quantom_register *quantom_reg_create(int num_of_qubits);
+
+
+void quantom_free(Quantom_register *q);
+
+
+void quantomRegister_Print(Quantom_register *Q);
+
+
+void quantom_hadamard(Quantom_register *Q, int target);
+
+
+void quantom_X(Quantom_register *Q, int target);
+
+#endif
