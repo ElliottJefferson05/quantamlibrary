@@ -32,6 +32,25 @@ void quantom_free(Quantom_register *q) {
     free(q);
 }
 
+void quantom_print(Quantom_register *q){
+    if (q ==NULL){
+        printf("register is NULL\n");
+        return;
+    }
+
+    for(int i = 0; i < q->state_size; i++){
+        printf("|");
+
+        for(int j = q->num_of_qbits-1;j>=0;j--){
+            int bit_val = (i >> j) & 1;
+            printf("%d",bit_val);
+
+
+        }
+        printf("> : %.4f + %.4fi\n", q->state[i].real, q->state[i].imaginary);
+    }
+}
+
 
 
 
@@ -99,3 +118,13 @@ static void apply_gate2x2(Quantom_register *Q, Matrix2x2 gate, int target){
  static void apply_gate4x4(Quantom_register *Q, Matrix4x4 gate, int target){
     
    }
+
+
+void quantom_hadamard(Quantom_register *Q, int target) {
+    apply_gate2x2(Q, hadamarMatrix(), target);
+}
+
+void quantom_X(Quantom_register *Q, int target) {
+    apply_gate2x2(Q, xMatrix(), target);
+}
+

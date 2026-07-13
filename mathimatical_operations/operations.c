@@ -1,6 +1,6 @@
 #include <math.h>
 #include "operations.h"
-#include "quantomlibrary.h"
+#include "../quantomlibrary.h"
 
 
 Complex Complex_congiguate(Complex a){

@@ -1,12 +1,7 @@
 #include <math.h>
 #include "matrix_gates.h"
 
-static Complex complex_initiliaze(double real, double imaginary){
-    Complex c;
-    c.real = real;
-    c.imaginary = imaginary;
-    return c;
-}
+
 
 Matrix2x2 hadamarMatrix(void){
 

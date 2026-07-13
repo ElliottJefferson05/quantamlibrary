@@ -23,6 +23,10 @@ Quantom_register *quantom_reg_create(int num_of_qubits);
 void quantom_free(Quantom_register *q);
 
 
-void quantomRegister_Print(Quantom_register *Q);
+void quantom_print(Quantom_register *Q);
+
+void quantom_hadamard(Quantom_register *Q, int target);
+
+void quantom_X(Quantom_register *Q, int target);
 
 #endif

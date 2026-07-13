@@ -3,7 +3,9 @@
 #include "../quantomlibrary.h"
 #include "../gates/matrix_gates.h"
 
-Complex Complex_congiguate(void);
+Complex Complex_congiguate(Complex a);
+
+Complex Tensor_product(void);
 
 
 
