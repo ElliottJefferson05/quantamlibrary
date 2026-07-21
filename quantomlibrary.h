@@ -19,6 +19,8 @@ Complex complex_initiliaze(double real,double imaginary);
 
 Quantom_register *quantom_reg_create(int num_of_qubits);
 
+Complex complex_add(Complex a,Complex b);
+
 
 void quantom_free(Quantom_register *q);
 

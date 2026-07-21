@@ -7,6 +7,17 @@ Complex Complex_congiguate(Complex a);
 
 Complex Tensor_product(void);
 
+void Hadamar_all(Quantom_register *q);
+
+void MCZ(Quantom_register *q);
+
+void Oracle(Quantom_register *q, int target);
+
+void diffusion(Quantom_register *q);
+
+int grover_iterations_calculate(Quantom_register *q);
+
+void Grover(Quantom_register *q, int target_index);
 
 
 

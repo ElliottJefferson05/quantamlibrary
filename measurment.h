@@ -16,4 +16,5 @@ void Output_resut(Quantom_register *q,int amount,int target);
 
 
 
+
 #endif

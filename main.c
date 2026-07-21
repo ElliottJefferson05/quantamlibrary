@@ -2,27 +2,29 @@
 #include "quantomlibrary.h"
 #include "gates/matrix_gates.h"
 #include "mathimatical_operations/operations.h"
+#include <stdlib.h>
+#include <time.h>
+#include "measurment.h"
 
 int main(void) {
-    Quantom_register *Q = quantom_reg_create(2);
+    
+    srand(time(NULL));
+    Quantom_register *Q = quantom_reg_create(3);
 
     if (Q == NULL) {
         printf("Failed to create quantum register\n");
         return 1;
     }
 
-    printf("Initial state:\n");
+
+    Grover(Q,2);
+
+ 
     quantom_print(Q);
 
-
-    quantom_hadamard(Q, 0);
-
-    printf("Hadamard on qubit 0:\n");
-    quantom_print(Q);
-
-    quantom_X(Q,1);
-    printf("x gate on qubit 1:\n");
-    quantom_print(Q);
+    Output_resut(Q, 100, 0);
+    Output_resut(Q, 100, 1);
+    Output_resut(Q, 100, 2);
 
     quantom_free(Q);
 
