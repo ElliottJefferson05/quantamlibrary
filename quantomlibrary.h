@@ -31,4 +31,11 @@ void quantom_hadamard(Quantom_register *Q, int target);
 
 void quantom_X(Quantom_register *Q, int target);
 
+
+void quantom_z(Quantom_register *Q,int target);
+
+void quantom_y(Quantom_register *Q,int target);
+
+void quantom_s(Quantom_register *Q,int target);
+
 #endif

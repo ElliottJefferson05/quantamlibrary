@@ -73,3 +73,22 @@ Matrix4x4 CNOTMatrix(void){
 
     return CNOT;
 }
+
+
+Matrix2x2 sMatrix(void){
+
+    Matrix2x2 sM;
+
+    sM.matrix[0][0] = complex_initiliaze(1,0.0);
+    sM.matrix[0][1] = complex_initiliaze(0,0.0);
+    sM.matrix[1][0] = complex_initiliaze(0,0.0);
+    sM.matrix[1][1] = complex_initiliaze(1,0.0);
+
+    return sM;
+}
+
+
+  
+
+
+

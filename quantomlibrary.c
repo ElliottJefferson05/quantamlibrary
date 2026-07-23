@@ -128,3 +128,15 @@ void quantom_X(Quantom_register *Q, int target) {
     apply_gate2x2(Q, xMatrix(), target);
 }
 
+
+void quantom_z(Quantom_register *Q,int target){
+    apply_gate2x2(Q,zMatrix(),target);
+}
+
+void quantom_y(Quantom_register *Q,int target){
+    apply_gate2x2(Q,yMatrix(),target);
+}
+
+void quantom_s(Quantom_register *Q,int target){
+    apply_gate2x2(Q,sMatrix(),target);
+}
