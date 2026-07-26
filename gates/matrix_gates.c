@@ -49,27 +49,26 @@ Matrix2x2 yMatrix(void){
 
     return yM;
 }
-
-Matrix4x4 CNOTMatrix(void){
+Matrix4x4 CNOTMatrix(void) {
 
     Matrix4x4 CNOT;
 
-    CNOT.matrix[0][0] = complex_initiliaze(1,0.0);
-    CNOT.matrix[0][1] = complex_initiliaze(0,0.0);
-    CNOT.matrix[0][2] = complex_initiliaze(0,0.0);
-    CNOT.matrix[0][3] = complex_initiliaze(0,0.0);
-    CNOT.matrix[1][0] = complex_initiliaze(0,0.0);
-    CNOT.matrix[1][1] = complex_initiliaze(1,0.0);
-    CNOT.matrix[1][2] = complex_initiliaze(0,0.0);
-    CNOT.matrix[1][3] = complex_initiliaze(0,0.0);
-    CNOT.matrix[2][0] = complex_initiliaze(0,0.0);
-    CNOT.matrix[2][1] = complex_initiliaze(0,0.0);
-    CNOT.matrix[2][2] = complex_initiliaze(1,0.0);
-    CNOT.matrix[2][3] = complex_initiliaze(0,0.0);
-    CNOT.matrix[3][0] = complex_initiliaze(0,0.0);
-    CNOT.matrix[3][1] = complex_initiliaze(0,0.0);
-    CNOT.matrix[3][2] = complex_initiliaze(0,0.0);
-    CNOT.matrix[3][3] = complex_initiliaze(1,0.0);
+    CNOT.matrix[0][0] = complex_initiliaze(1.0, 0.0);
+    CNOT.matrix[0][1] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[0][2] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[0][3] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[1][0] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[1][1] = complex_initiliaze(1.0, 0.0);
+    CNOT.matrix[1][2] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[1][3] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[2][0] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[2][1] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[2][2] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[2][3] = complex_initiliaze(1.0, 0.0);
+    CNOT.matrix[3][0] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[3][1] = complex_initiliaze(0.0, 0.0);
+    CNOT.matrix[3][2] = complex_initiliaze(1.0, 0.0);
+    CNOT.matrix[3][3] = complex_initiliaze(0.0, 0.0);
 
     return CNOT;
 }

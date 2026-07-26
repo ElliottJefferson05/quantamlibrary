@@ -7,27 +7,25 @@
 #include "measurment.h"
 
 int main(void) {
-    
-    srand(time(NULL));
-    Quantom_register *Q = quantom_reg_create(3);
+
+    Quantom_register *Q = quantom_reg_create(2);
 
     if (Q == NULL) {
         printf("Failed to create quantum register\n");
         return 1;
     }
 
+    quantom_X(Q, 1);
 
-    Grover(Q,2);
-
- 
+    printf("Before CNOT:\n");
     quantom_print(Q);
 
-    Output_resut(Q, 100, 0);
-    Output_resut(Q, 100, 1);
-    Output_resut(Q, 100, 2);
+    quantom_CNOT(Q, 1, 0);
+
+    printf("\nAfter CNOT:\n");
+    quantom_print(Q);
 
     quantom_free(Q);
 
     return 0;
-
 }

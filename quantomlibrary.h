@@ -38,4 +38,6 @@ void quantom_y(Quantom_register *Q,int target);
 
 void quantom_s(Quantom_register *Q,int target);
 
+void quantom_CNOT(Quantom_register *Q,int target1,int target2);
+
 #endif
