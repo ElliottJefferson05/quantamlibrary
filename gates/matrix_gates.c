@@ -1,5 +1,9 @@
 #include <math.h>
 #include "matrix_gates.h"
+#include <complex.h>
+
+
+
 
 
 
@@ -85,6 +89,20 @@ Matrix2x2 sMatrix(void){
 
     return sM;
 }
+
+Matrix2x2 tMatrix(void){
+
+    Matrix2x2 tM;
+
+    tM.matrix[0][0] = complex_initiliaze(1,0.0);
+    tM.matrix[0][1] = complex_initiliaze(0,0.0);
+    tM.matrix[1][0] = complex_initiliaze(0,0.0);
+    tM.matrix[1][1] = complex_initiliaze(0.70710678118, 0.70710678118);
+
+    return tM;
+}
+
+
 
 
   

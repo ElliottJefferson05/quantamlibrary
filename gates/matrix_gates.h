@@ -17,6 +17,7 @@ Matrix2x2 zMatrix(void);
 Matrix4x4 CNOTMatrix(void);
 Matrix2x2 yMatrix(void);
 Matrix2x2 sMatrix(void);
+Matrix2x2 tMatrix(void);    
 
 
 #endif

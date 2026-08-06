@@ -19,25 +19,9 @@ Complex complex_initiliaze(double real,double imaginary);
 
 Quantom_register *quantom_reg_create(int num_of_qubits);
 
-Complex complex_add(Complex a,Complex b);
-
-
 void quantom_free(Quantom_register *q);
 
 
 void quantom_print(Quantom_register *Q);
-
-void quantom_hadamard(Quantom_register *Q, int target);
-
-void quantom_X(Quantom_register *Q, int target);
-
-
-void quantom_z(Quantom_register *Q,int target);
-
-void quantom_y(Quantom_register *Q,int target);
-
-void quantom_s(Quantom_register *Q,int target);
-
-void quantom_CNOT(Quantom_register *Q,int target1,int target2);
 
 #endif

@@ -1,11 +1,23 @@
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
 #include "../quantomlibrary.h"
-#include "../gates/matrix_gates.h"
+
+Complex complex_add(Complex a,Complex b);
+Complex complex_mutliply(Complex a, Complex b);
 
 Complex Complex_congiguate(Complex a);
 
-Complex Tensor_product(void);
+void quantom_hadamard(Quantom_register *Q, int target);
+
+void quantom_X(Quantom_register *Q, int target);
+
+void quantom_z(Quantom_register *Q,int target);
+
+void quantom_y(Quantom_register *Q,int target);
+
+void quantom_s(Quantom_register *Q,int target);
+
+void quantom_CNOT(Quantom_register *Q,int target1,int target2);
 
 void Hadamar_all(Quantom_register *q);
 

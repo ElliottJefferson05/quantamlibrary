@@ -3,8 +3,6 @@
 
 
 #include "./quantomlibrary.h"
-#include "./gates/matrix_gates.h"
-#include "mathimatical_operations/operations.h"
 
 
 
