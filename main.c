@@ -6,23 +6,23 @@
 #include <time.h>
 #include "measurment.h"
 
+
 int main(void) {
 
-    Quantom_register *Q = quantom_reg_create(2);
+    srand(time(NULL));
+
+    int secret_length = 3;
+    int secret = 0b101;
+
+    Quantom_register *Q = quantom_reg_create(secret_length + 1);
 
     if (Q == NULL) {
         printf("Failed to create quantum register\n");
         return 1;
     }
 
-    quantom_X(Q, 1);
+    Bernstein_Vazirani(Q, secret, secret_length);
 
-    printf("Before CNOT:\n");
-    quantom_print(Q);
-
-    quantom_CNOT(Q, 1, 0);
-
-    printf("\nAfter CNOT:\n");
     quantom_print(Q);
 
     quantom_free(Q);

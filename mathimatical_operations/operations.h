@@ -31,6 +31,10 @@ int grover_iterations_calculate(Quantom_register *q);
 
 void Grover(Quantom_register *q, int target_index);
 
+void Bernstein_Vazirani(Quantom_register * q, int secret, int length);
+
+void Bernstein_Vazirani_Oracle(Quantom_register * q, int secret, int length);
+
 
 
 #endif
