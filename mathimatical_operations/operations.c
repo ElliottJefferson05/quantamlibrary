@@ -173,6 +173,20 @@ void quantom_CNOT(Quantom_register *Q,int target1, int target2){
     apply_gate4x4(Q,CNOTMatrix(),target1,target2);
 }
 
+void controlled_Phase(Quantom_register *q, int target1, int target2, int theta){
+
+    Matrix4x4 ControlledP = controlledPhase(theta);
+
+    apply_gate4x4(q,ControlledP,target1,target2);
+
+
+}
+
+
+void Swap(Quantom_register *q, int target1, int target2){
+    apply_gate4x4(q,swapMatrix(),target1,target2);
+}
+
 void Hadamar_all(Quantom_register *q){
     
     if(q == NULL){

@@ -103,6 +103,56 @@ Matrix2x2 tMatrix(void){
 }
 
 
+Matrix4x4 controlledPhase(double theta){
+
+    Matrix4x4 controlledPhase;
+
+    controlledPhase.matrix[0][0] = complex_initiliaze(1.0, 0.0);
+    controlledPhase.matrix[0][1] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[0][2] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[0][3] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[1][0] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[1][1] = complex_initiliaze(1.0, 0.0);
+    controlledPhase.matrix[1][2] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[1][3] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[2][0] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[2][1] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[2][2] = complex_initiliaze(1.0, 0.0);
+    controlledPhase.matrix[2][3] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[3][0] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[3][1] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[3][2] = complex_initiliaze(0.0, 0.0);
+    controlledPhase.matrix[3][3] = complex_initiliaze(cos(theta), sin(theta));
+
+    return controlledPhase;
+}
+
+
+
+Matrix4x4 swapMatrix(void) {
+
+    Matrix4x4 SWAP;
+
+    SWAP.matrix[0][0] = complex_initiliaze(1.0, 0.0);
+    SWAP.matrix[0][1] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[0][2] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[0][3] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[1][0] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[1][1] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[1][2] = complex_initiliaze(1.0, 0.0);
+    SWAP.matrix[1][3] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[2][0] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[2][1] = complex_initiliaze(1.0, 0.0);
+    SWAP.matrix[2][2] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[2][3] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[3][0] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[3][1] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[3][2] = complex_initiliaze(0.0, 0.0);
+    SWAP.matrix[3][3] = complex_initiliaze(1.0, 0.0);
+
+    return SWAP;
+}
+
 
 
   

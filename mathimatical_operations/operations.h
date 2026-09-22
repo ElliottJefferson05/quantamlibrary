@@ -35,6 +35,12 @@ void Bernstein_Vazirani(Quantom_register * q, int secret, int length);
 
 void Bernstein_Vazirani_Oracle(Quantom_register * q, int secret, int length);
 
+void controlled_Phase(Quantom_register *q, int target1, int target2, int theta);
+
+void Swap(Quantom_register *q, int target1, int target2);
+
+
+
 
 
 #endif
