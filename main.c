@@ -5,26 +5,24 @@
 #include <stdlib.h>
 #include <time.h>
 #include "measurment.h"
+#include "circuit_Display.h"
 
 
 int main(void) {
 
     srand(time(NULL));
 
-    int secret_length = 3;
-    int secret = 0b101;
+   
 
-    Quantom_register *Q = quantom_reg_create(secret_length + 1);
+    Quantom_register *Q = quantom_reg_create(2);
 
-    if (Q == NULL) {
-        printf("Failed to create quantum register\n");
-        return 1;
-    }
+    quantom_hadamard(Q,1);
 
-    Bernstein_Vazirani(Q, secret, secret_length);
 
     quantom_print(Q);
 
+    printCircuit(Q->circuit);
+    
     quantom_free(Q);
 
     return 0;

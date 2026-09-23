@@ -11,12 +11,14 @@ LDLIBS := -lm
 SRC := \
 	main.c \
 	quantomlibrary.c \
+	circuit_Display.c \
 	measurement.c \
 	gates/matrix_gates.c \
 	mathimatical_operations/operations.c
 
 LIB_SRC := \
 	quantomlibrary.c \
+	circuit_Display.c \
 	measurement.c \
 	gates/matrix_gates.c \
 	mathimatical_operations/operations.c

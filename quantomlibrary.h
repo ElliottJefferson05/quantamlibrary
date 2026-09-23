@@ -1,6 +1,8 @@
 #ifndef QSIM_H
 #define QSIM_H
 
+struct circuitList;
+
 typedef struct{
     double real;
     double imaginary;
@@ -12,6 +14,7 @@ typedef struct{
     int num_of_qbits;
     int state_size;
     Complex *state;
+    struct circuitList *circuit;
 }Quantom_register;
 
 

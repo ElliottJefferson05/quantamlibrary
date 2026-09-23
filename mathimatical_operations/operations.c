@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stddef.h>
 #include "operations.h"
+#include "circuit_Display.h"
 #include "../gates/matrix_gates.h"
 
 Complex complex_add(Complex a,Complex b){
@@ -150,6 +151,8 @@ static void apply_gate4x4( Quantom_register *Q, Matrix4x4 gate, int target1, int
 
 void quantom_hadamard(Quantom_register *Q, int target) {
     apply_gate2x2(Q, hadamarMatrix(), target);
+    addNode(Q->circuit,GATE_H,0,1);
+
 }
 
 void quantom_X(Quantom_register *Q, int target) {

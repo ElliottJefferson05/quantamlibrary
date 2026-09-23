@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "quantomlibrary.h"
+#include "circuit_Display.h"
+
 
 Complex complex_initiliaze(double real, double imaginary){
     Complex c;
@@ -58,6 +60,12 @@ Quantom_register *quantom_reg_create(int num_of_qubits) {
     }
 
     q->state[0] = complex_initiliaze(1.0, 0.0);
+
+    q-> circuit =createList();
+    
+    if(q->circuit == NULL){
+        return NULL;
+    }
 
     return q;
 }
