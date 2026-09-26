@@ -150,6 +150,93 @@ static void apply_gate4x4(Quantom_register *Q, Matrix4x4 gate, int target1, int 
     }
 }
 
+static void apply_gate8x8(Quantom_register *Q,Matrix8x8 gate,int qbit1,int qbit2,int qbit3){
+
+    if (Q == NULL || Q->state == NULL)
+    {
+        return;
+    }
+
+    if (qbit1 < 0 || qbit1 >= Q->num_of_qbits)
+    {
+        return;
+    }
+
+    if (qbit2 < 0 || qbit2 >= Q->num_of_qbits)
+    {
+        return;
+    }
+
+    if (qbit3 < 0 || qbit3 >= Q->num_of_qbits)
+    {
+        return;
+    }
+
+    if (qbit1 == qbit2 || qbit1 == qbit3 || qbit2 == qbit3)
+    {
+        return;
+    }
+
+    int bit1 = 1 << qbit1;
+    int bit2 = 1 << qbit2;
+    int bit3 = 1 << qbit3;
+
+    for (int i = 0; i < Q->state_size; i++)
+    {
+
+        if ((i & bit1) == 0 && (i & bit2) == 0 && (i & bit3) == 0)
+        {
+
+            int index000 = i;
+            int index001 = i | bit3;
+            int index010 = i | bit2;
+            int index011 = i | bit2 | bit3;
+            int index100 = i | bit1;
+            int index101 = i | bit1 | bit3;
+            int index110 = i | bit1 | bit2;
+            int index111 = i | bit1 | bit2 | bit3;
+
+            Complex old[8];
+
+            old[0] = Q->state[index000];
+            old[1] = Q->state[index001];
+            old[2] = Q->state[index010];
+            old[3] = Q->state[index011];
+            old[4] = Q->state[index100];
+            old[5] = Q->state[index101];
+            old[6] = Q->state[index110];
+            old[7] = Q->state[index111];
+
+            Complex new[8];
+
+            for (int row = 0; row < 8; row++)
+            {
+
+                new[row] = complex_initiliaze(0.0, 0.0);
+
+                for (int col = 0; col < 8; col++)
+                {
+
+                    Complex product = complex_mutliply(
+                        gate.matrix[row][col],
+                        old[col]);
+
+                    new[row] = complex_add(new[row], product);
+                }
+            }
+
+            Q->state[index000] = new[0];
+            Q->state[index001] = new[1];
+            Q->state[index010] = new[2];
+            Q->state[index011] = new[3];
+            Q->state[index100] = new[4];
+            Q->state[index101] = new[5];
+            Q->state[index110] = new[6];
+            Q->state[index111] = new[7];
+        }
+    }
+}
+
 void quantom_hadamard(Quantom_register *Q, int target)
 {
     apply_gate2x2(Q, hadamarMatrix(), target);
@@ -202,6 +289,12 @@ void Swap(Quantom_register *q, int target1, int target2)
 
     addNode(q->circuit, GATE_SWAP, 0, 1);
 }
+
+
+void Toffoli(Quantom_register *q, int control1, int control2, int target){
+    apply_gate8x8(q,ToffoliMatrix(),control1,control2,target);
+}
+
 
 void Hadamar_all(Quantom_register *q)
 {
@@ -390,15 +483,18 @@ void quantom_Forier_Transform(Quantom_register *q, int length)
 void inverse_Quantum_Forier_Transform(Quantom_register *q, int length)
 {
 
-    if(q == NULL){
+    if (q == NULL)
+    {
         return;
     }
 
-    if(q ->num_of_qbits <= 0){
+    if (q->num_of_qbits <= 0)
+    {
         return;
     }
 
-    if(q->state_size < 0){
+    if (q->state_size < 0)
+    {
         return;
     }
 
@@ -425,17 +521,21 @@ void inverse_Quantum_Forier_Transform(Quantom_register *q, int length)
     }
 }
 
-int gcd(int a, int b) {
+int gcd(int a, int b)
+{
 
-    if (a < 0) {
+    if (a < 0)
+    {
         a = -a;
     }
 
-    if (b < 0) {
+    if (b < 0)
+    {
         b = -b;
     }
 
-    while (b != 0) {
+    while (b != 0)
+    {
         int temp = b;
         b = a % b;
         a = temp;
@@ -443,3 +543,4 @@ int gcd(int a, int b) {
 
     return a;
 }
+

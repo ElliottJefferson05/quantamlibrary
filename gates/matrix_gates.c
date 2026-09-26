@@ -154,6 +154,28 @@ Matrix4x4 swapMatrix(void) {
 }
 
 
+Matrix8x8 ToffoliMatrix(void) {
+
+    Matrix8x8 T;
+
+    for (int row = 0; row < 8; row++) {
+        for (int col = 0; col < 8; col++) {
+            T.matrix[row][col] = complex_initiliaze(0.0, 0.0);
+        }
+    }
+
+    T.matrix[0][0] = complex_initiliaze(1.0, 0.0);
+    T.matrix[1][1] = complex_initiliaze(1.0, 0.0);
+    T.matrix[2][2] = complex_initiliaze(1.0, 0.0);
+    T.matrix[3][3] = complex_initiliaze(1.0, 0.0);
+    T.matrix[4][4] = complex_initiliaze(1.0, 0.0);
+    T.matrix[5][5] = complex_initiliaze(1.0, 0.0);
+
+    T.matrix[6][7] = complex_initiliaze(1.0, 0.0);
+    T.matrix[7][6] = complex_initiliaze(1.0, 0.0);
+
+    return T;
+}
 
   
 
