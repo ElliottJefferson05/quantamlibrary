@@ -35,10 +35,14 @@ void Bernstein_Vazirani(Quantom_register * q, int secret, int length);
 
 void Bernstein_Vazirani_Oracle(Quantom_register * q, int secret, int length);
 
-void controlled_Phase(Quantom_register *q, int target1, int target2, int theta);
+void controlled_Phase(Quantom_register *q, int target1, int target2, float theta);
 
 void Swap(Quantom_register *q, int target1, int target2);
 
+
+void quantom_Forier_Transform(Quantom_register * q, int length);
+int gcd(int a, int b);
+void inverse_Quantum_Forier_Transform(Quantom_register *q, int length);
 
 
 

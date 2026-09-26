@@ -10,20 +10,11 @@
 
 int main(void) {
 
-    srand(time(NULL));
-
    
+    int a;
 
-    Quantom_register *Q = quantom_reg_create(2);
-
-    quantom_hadamard(Q,1);
-
-
-    quantom_print(Q);
-
-    printCircuit(Q->circuit);
-    
-    quantom_free(Q);
+    a = gcd(13,31);
+    printf("%d \n",a);
 
     return 0;
 }

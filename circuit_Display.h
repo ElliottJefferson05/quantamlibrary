@@ -14,6 +14,7 @@ typedef enum {
     GATE_T,
     GATE_CNOT,
     GATE_CP,
+    GATE_S,
     GATE_SWAP
 } GateType;
 
@@ -54,5 +55,6 @@ struct circuitList * addNode(struct circuitList * list, GateType type, int contr
 void printCircuit(struct circuitList * list);
 
 
+void printCircuitImproved(struct circuitList * list, Quantom_register * q);
 
 #endif 
