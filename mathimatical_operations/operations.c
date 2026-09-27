@@ -150,7 +150,8 @@ static void apply_gate4x4(Quantom_register *Q, Matrix4x4 gate, int target1, int 
     }
 }
 
-static void apply_gate8x8(Quantom_register *Q,Matrix8x8 gate,int qbit1,int qbit2,int qbit3){
+static void apply_gate8x8(Quantom_register *Q, Matrix8x8 gate, int qbit1, int qbit2, int qbit3)
+{
 
     if (Q == NULL || Q->state == NULL)
     {
@@ -290,11 +291,10 @@ void Swap(Quantom_register *q, int target1, int target2)
     addNode(q->circuit, GATE_SWAP, 0, 1);
 }
 
-
-void Toffoli(Quantom_register *q, int control1, int control2, int target){
-    apply_gate8x8(q,ToffoliMatrix(),control1,control2,target);
+void Toffoli(Quantom_register *q, int control1, int control2, int target)
+{
+    apply_gate8x8(q, ToffoliMatrix(), control1, control2, target);
 }
-
 
 void Hadamar_all(Quantom_register *q)
 {
@@ -521,6 +521,95 @@ void inverse_Quantum_Forier_Transform(Quantom_register *q, int length)
     }
 }
 
+void quantom_Forier_Transform_Range(Quantom_register *q, int start, int length)
+{
+    if (q == NULL || q->state == NULL)
+    {
+        return;
+    }
+
+    if (start < 0 || length <= 0)
+    {
+        return;
+    }
+
+    if (start + length > q->num_of_qbits)
+    {
+        return;
+    }
+
+    int end = start + length;
+
+    for (int i = start; i < end; i++)
+    {
+
+        quantom_hadamard(q, i);
+
+        int k = 2;
+
+        for (int j = i + 1; j < end; j++)
+        {
+            controlled_Phase(q, j, i, pi / k);
+            k *= 2;
+        }
+    }
+
+    int left = start;
+    int right = end - 1;
+
+    while (left < right)
+    {
+        Swap(q, left, right);
+
+        left++;
+        right--;
+    }
+}
+
+void inverse_Quantum_Forier_Transform_Range(Quantom_register *q, int start, int length)
+{
+    if (q == NULL || q->state == NULL)
+    {
+        return;
+    }
+
+    if (start < 0 || length <= 0)
+    {
+        return;
+    }
+
+    if (start + length > q->num_of_qbits)
+    {
+        return;
+    }
+
+    int end = start + length;
+
+    int left = start;
+    int right = end - 1;
+
+    while (left < right)
+    {
+        Swap(q, left, right);
+
+        left++;
+        right--;
+    }
+
+    for (int i = end - 1; i >= start; i--)
+    {
+
+        int k = 2;
+
+        for (int j = i + 1; j < end; j++)
+        {
+            controlled_Phase(q, j, i, -pi / k);
+            k *= 2;
+        }
+
+        quantom_hadamard(q, i);
+    }
+}
 int gcd(int a, int b)
 {
 
@@ -544,3 +633,50 @@ int gcd(int a, int b)
     return a;
 }
 
+
+
+void MAJ(Quantom_register *q, int target1, int target2, int control)
+{
+    quantom_CNOT(q, target1, target2);
+    quantom_CNOT(q, target1, control);
+    Toffoli(q, control, target2, target1);
+}
+
+void UMA(Quantom_register *q, int target1, int target2, int control)
+{
+    Toffoli(q, control, target2, target1);
+    quantom_CNOT(q, target1, control);
+    quantom_CNOT(q, control, target2);
+}
+
+void Ripple_Adder(Quantom_register *q, int a_start, int b_start, int carry, int carry_out, int length)
+{
+
+    if (q == NULL || q->state == NULL)
+    {
+        return;
+    }
+
+    if (length <= 0)
+    {
+        return;
+    }
+
+    MAJ(q, a_start, b_start, carry);
+
+    for (int i = 1; i < length; i++)
+    {
+
+        MAJ(q, a_start + i, b_start + i, a_start + i - 1);
+    }
+
+    quantom_CNOT(q, a_start + length - 1, carry_out);
+
+    for (int i = length - 1; i >= 1; i--)
+    {
+
+        UMA(q, a_start + i, b_start + i, a_start + i - 1);
+    }
+
+    UMA(q, a_start, b_start, carry);
+}
