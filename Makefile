@@ -8,20 +8,17 @@ CFLAGS := -Wall -Wextra -std=c11 -g
 CPPFLAGS := -I. -Itests
 LDLIBS := -lm
 
-SRC := \
-	main.c \
-	quantomlibrary.c \
-	circuit_Display.c \
-	measurement.c \
-	gates/matrix_gates.c \
-	mathimatical_operations/operations.c
-
 LIB_SRC := \
 	quantomlibrary.c \
 	circuit_Display.c \
 	measurement.c \
 	gates/matrix_gates.c \
-	mathimatical_operations/operations.c
+	mathimatical_operations/core_operations.c \
+	mathimatical_operations/grover_operations.c \
+	mathimatical_operations/bernstein_vazirani_operations.c \
+	mathimatical_operations/shor_operations.c
+
+SRC := main.c $(LIB_SRC)
 
 TEST_SRC := \
 	tests/Quantom_test.c \

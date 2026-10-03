@@ -8,24 +8,22 @@
 #include "circuit_Display.h"
 
 
-int main(void){
+int main(void) {
 
-    Quantom_register *q = quantom_reg_create(6);
+    //q0 b1 1
+    //q1 b2 0
+    //q2 a1 1
+    //q3 a2 0
+    //q4 carry in 
+    //q5 carry out
+       
 
-    quantom_X(q,2);
-    quantom_X(q,3);
+    Quantom_register * q = quantom_reg_create(2);
 
-    quantom_X(q,0);
+    quantom_hadamard(q,0);
 
-    printf("Before:\n");
-    quantom_print(q);
+    quantom_hadamard(q,1);
 
-    Ripple_Adder(q,2,0,4,5,2);
+    printCircuitImproved(q->circuit,q);
 
-    printf("\nAfter:\n");
-    quantom_print(q);
-
-    quantom_free(q);
-
-    return 0;
 }
