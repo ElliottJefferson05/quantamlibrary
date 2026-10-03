@@ -26,4 +26,8 @@ void inverse_UMA(Quantom_register *q, int target1, int target2, int control);
 
 void Subtraction(Quantom_register *q, int a_start, int b_start, int carry, int carry_out, int length);
 
+void controlled_N_To_Zero(Quantom_register *q,int n_start,int t,int N,int length);
+
+void adderModulo(Quantom_register *q,int a_start,int b_start,int n_start,int carry,int carry_out,int t,int N,int length);
+
 #endif

@@ -276,3 +276,48 @@ void Subtraction(Quantom_register *q, int a_start, int b_start, int carry, int c
 
     inverse_MAJ(q, a_start, b_start, carry);
 }
+
+void controlled_N_To_Zero(Quantom_register *q, int n_start, int t, int N, int length)
+{
+
+    for (int i = 0; i < length; i++)
+    {
+
+        int n_bit = 1 << i;
+
+        if ((N & n_bit) != 0)
+        {
+
+            quantom_CNOT(q, t, n_start + i);
+        }
+    }
+}
+
+void adderModulo(Quantom_register *q, int a_start, int b_start, int n_start, int carry, int carry_out, int t, int N, int length)
+{
+
+    if (q == NULL || q->state == NULL)
+    {
+        return;
+    }
+
+    Ripple_Adder(q, a_start, b_start, carry, carry_out, length);
+
+    Subtraction(q, n_start, b_start, carry, carry_out, length);
+
+    quantom_CNOT(q, carry_out, t);
+
+    quantom_X(q, t);
+
+    controlled_N_To_Zero(q, n_start, t, N, length);
+
+    Ripple_Adder(q, n_start, b_start, carry, carry_out, length);
+
+    controlled_N_To_Zero(q, n_start, t, N, length);
+
+    Subtraction(q, a_start, b_start, carry, carry_out, length);
+
+    quantom_CNOT(q, carry_out, t);
+
+    Ripple_Adder(q, a_start, b_start, carry, carry_out, length);
+}
