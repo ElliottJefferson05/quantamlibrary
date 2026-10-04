@@ -69,3 +69,5 @@ Quantom_register *quantom_reg_create(int num_of_qubits) {
 
     return q;
 }
+
+
