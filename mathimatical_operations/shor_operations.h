@@ -44,5 +44,18 @@ void inverseControlledMultiplierModulo(Quantom_register *q, int control, int x_s
 
 void modularExponentiation(Quantom_register *q, int exponent_start, int exponent_length, int result_start, int work_start, int temp_start, int n_start, int carry, int carry_out, int t, int a, int N, int length);
 
+int continuedFractionPeriod(int measured, int Q, int N);
+
+int modularPower(int base, int exponent, int mod);
+
+int measureSubRegister(Quantom_register *q, int start, int length);
+
+int findValidPeriod(int candidate, int a, int N);
+
+int chooseA(int N);
+
+int Shor(int N);
+
+int getBitLength(int N);
 
 #endif

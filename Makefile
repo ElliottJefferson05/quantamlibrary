@@ -3,8 +3,9 @@ BUILD_DIR := build
 BINARY := quantom
 TARGET := $(BUILD_DIR)/$(BINARY)
 TEST_TARGET := $(BUILD_DIR)/tests/Quantom_test
+MODEXP_TEST_TARGET := $(BUILD_DIR)/tests/Modular_exponentiation_test
 
-CFLAGS := -Wall -Wextra -std=c11 -g
+CFLAGS := -Wall -Wextra -std=c11 -O3 -march=native
 CPPFLAGS := -I. -Itests
 LDLIBS := -lm
 
@@ -27,11 +28,12 @@ TEST_SRC := \
 
 OBJ := $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
 TEST_OBJ := $(patsubst %.c,$(BUILD_DIR)/%.o,$(TEST_SRC))
-DEP := $(OBJ:.o=.d) $(TEST_OBJ:.o=.d)
+MODEXP_TEST_OBJ := $(BUILD_DIR)/tests/Modular_exponentiation_test.o $(patsubst %.c,$(BUILD_DIR)/%.o,$(LIB_SRC))
+DEP := $(OBJ:.o=.d) $(TEST_OBJ:.o=.d) $(MODEXP_TEST_OBJ:.o=.d)
 LEGACY_OBJ := $(SRC:.c=.o)
 LEGACY_DEP := $(LEGACY_OBJ:.o=.d)
 
-.PHONY: all quantom run test clean
+.PHONY: all quantom run test test-modexp clean
 
 all: $(TARGET)
 
@@ -43,6 +45,9 @@ $(TARGET): $(OBJ)
 $(TEST_TARGET): $(TEST_OBJ)
 	$(CC) $(CFLAGS) $(TEST_OBJ) -o $@ $(LDLIBS)
 
+$(MODEXP_TEST_TARGET): $(MODEXP_TEST_OBJ)
+	$(CC) $(CFLAGS) $(MODEXP_TEST_OBJ) -o $@ $(LDLIBS)
+
 $(BUILD_DIR)/%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -MMD -MP -c $< -o $@
@@ -50,8 +55,12 @@ $(BUILD_DIR)/%.o: %.c
 run: $(TARGET)
 	./$(TARGET)
 
-test: $(TEST_TARGET)
+test: $(TEST_TARGET) $(MODEXP_TEST_TARGET)
 	./$(TEST_TARGET)
+	./$(MODEXP_TEST_TARGET)
+
+test-modexp: $(MODEXP_TEST_TARGET)
+	./$(MODEXP_TEST_TARGET)
 
 clean:
 	rm -rf $(BUILD_DIR)
