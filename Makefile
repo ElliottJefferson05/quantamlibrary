@@ -3,6 +3,7 @@ BUILD_DIR := build
 BINARY := quantom
 TARGET := $(BUILD_DIR)/$(BINARY)
 TEST_TARGET := $(BUILD_DIR)/tests/Quantom_test
+TEST_RUNNER := tests/Quantom_test_Runner.c
 
 CFLAGS := -Wall -Wextra -std=c11 -O3 -march=native
 CPPFLAGS := -I. -Itests
@@ -22,6 +23,7 @@ SRC := main.c $(LIB_SRC)
 
 TEST_SRC := \
 	tests/Quantom_test.c \
+	$(TEST_RUNNER) \
 	tests/unity.c \
 	$(LIB_SRC)
 
@@ -40,7 +42,10 @@ quantom: $(TARGET)
 $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $@ $(LDLIBS)
 
-$(TEST_TARGET): $(TEST_OBJ)
+$(TEST_RUNNER): tests/Quantom_test.c tests/generate_test_runner.rb tests/type_sanitizer.rb tests/yaml_helper.rb
+	ruby tests/generate_test_runner.rb tests/Quantom_test.c $(TEST_RUNNER)
+
+$(TEST_TARGET): $(TEST_RUNNER) $(TEST_OBJ)
 	$(CC) $(CFLAGS) $(TEST_OBJ) -o $@ $(LDLIBS)
 
 $(BUILD_DIR)/%.o: %.c
