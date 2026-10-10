@@ -19,6 +19,7 @@ extern "C"
 {
 #endif
 
+#include "unity_config.h"
 #include "unity_internals.h"
 
 /*-------------------------------------------------------

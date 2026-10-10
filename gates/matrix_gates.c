@@ -85,7 +85,7 @@ Matrix2x2 sMatrix(void){
     sM.matrix[0][0] = complex_initiliaze(1,0.0);
     sM.matrix[0][1] = complex_initiliaze(0,0.0);
     sM.matrix[1][0] = complex_initiliaze(0,0.0);
-    sM.matrix[1][1] = complex_initiliaze(1,0.0);
+    sM.matrix[1][1] = complex_initiliaze(0,1.0);
 
     return sM;
 }
