@@ -182,7 +182,6 @@ void test_hadamard_twice(void)
     quantom_hadamard(q, 0);
     quantom_hadamard(q, 0);
 
-    // Two Hadamard gates should return the qubit to zero.
     assert_basis_state(q, 0);
 
     quantom_free(q);
@@ -195,7 +194,6 @@ void test_cnot_with_zero_control(void)
 
     quantom_CNOT(q, 0, 1);
 
-    // The target should not change when the control is zero.
     assert_basis_state(q, 0);
 
     quantom_free(q);
@@ -209,7 +207,6 @@ void test_bell_state(void)
     quantom_hadamard(q, 0);
     quantom_CNOT(q, 0, 1);
 
-    // The Bell state is (|00> + |11>) / sqrt(2).
     assert_complex(q->state[0], 1.0 / sqrt(2.0), 0.0);
     assert_complex(q->state[1], 0.0, 0.0);
     assert_complex(q->state[2], 0.0, 0.0);

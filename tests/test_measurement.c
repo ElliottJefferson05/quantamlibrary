@@ -9,7 +9,6 @@ void test_calculate_probability(void)
 
     double probability = Calculate_probability(amplitude);
 
-    // Probability = real squared + imaginary squared.
     TEST_ASSERT_DOUBLE_WITHIN(0.0000001, 0.25, probability);
 }
 
@@ -20,7 +19,6 @@ void test_qubit_probability(void)
 
     quantom_X(q, 0);
 
-    // Qubit 0 is one and qubit 1 is zero.
     TEST_ASSERT_DOUBLE_WITHIN(0.0000001, 0.0, Propabilty_total(q, 0, 0));
     TEST_ASSERT_DOUBLE_WITHIN(0.0000001, 1.0, Propabilty_total(q, 0, 1));
     TEST_ASSERT_DOUBLE_WITHIN(0.0000001, 1.0, Propabilty_total(q, 1, 0));
@@ -36,7 +34,6 @@ void test_hadamard_probability(void)
 
     quantom_hadamard(q, 0);
 
-    // A Hadamard gives a 50% chance of either result.
     TEST_ASSERT_DOUBLE_WITHIN(0.0000001, 0.5, Propabilty_total(q, 0, 0));
     TEST_ASSERT_DOUBLE_WITHIN(0.0000001, 0.5, Propabilty_total(q, 0, 1));
 
@@ -68,7 +65,6 @@ void test_measure_bell_state(void)
 
     int first = measureSubRegister(q, 0, 1);
 
-    // Either outcome is allowed, but both qubits must then agree.
     TEST_ASSERT_TRUE(first == 0 || first == 1);
     TEST_ASSERT_DOUBLE_WITHIN(0.0000001, 1.0, Propabilty_total(q, 0, first));
     TEST_ASSERT_DOUBLE_WITHIN(0.0000001, 1.0, Propabilty_total(q, 1, first));
