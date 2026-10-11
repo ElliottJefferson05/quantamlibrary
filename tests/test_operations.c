@@ -173,3 +173,47 @@ void test_hadamar_all(void)
 
     quantom_free(q);
 }
+
+void test_hadamard_twice(void)
+{
+    Quantom_register *q = quantom_reg_create(1);
+    TEST_ASSERT_NOT_NULL(q);
+
+    quantom_hadamard(q, 0);
+    quantom_hadamard(q, 0);
+
+    // Two Hadamard gates should return the qubit to zero.
+    assert_basis_state(q, 0);
+
+    quantom_free(q);
+}
+
+void test_cnot_with_zero_control(void)
+{
+    Quantom_register *q = quantom_reg_create(2);
+    TEST_ASSERT_NOT_NULL(q);
+
+    quantom_CNOT(q, 0, 1);
+
+    // The target should not change when the control is zero.
+    assert_basis_state(q, 0);
+
+    quantom_free(q);
+}
+
+void test_bell_state(void)
+{
+    Quantom_register *q = quantom_reg_create(2);
+    TEST_ASSERT_NOT_NULL(q);
+
+    quantom_hadamard(q, 0);
+    quantom_CNOT(q, 0, 1);
+
+    // The Bell state is (|00> + |11>) / sqrt(2).
+    assert_complex(q->state[0], 1.0 / sqrt(2.0), 0.0);
+    assert_complex(q->state[1], 0.0, 0.0);
+    assert_complex(q->state[2], 0.0, 0.0);
+    assert_complex(q->state[3], 1.0 / sqrt(2.0), 0.0);
+
+    quantom_free(q);
+}

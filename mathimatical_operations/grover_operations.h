@@ -3,14 +3,14 @@
 
 #include "../quantomlibrary.h"
 
-void MCZ(Quantom_register *q);
+void MCZ_all(Quantom_register *q, int search_length, int ancilla_start);
 
-void Oracle(Quantom_register *q, int target);
+void Oracle(Quantom_register *q, int target, int search_length, int ancilla_start);
 
-void diffusion(Quantom_register *q);
+void diffusion(Quantom_register *q, int search_length, int ancilla_start);
 
-int grover_iterations_calculate(Quantom_register *q);
+int grover_iterations_calculate(int search_length);
 
-void Grover(Quantom_register *q, int target_index);
+Quantom_register *Grover(int search_length, int target);
 
 #endif

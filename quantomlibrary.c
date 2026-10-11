@@ -16,6 +16,16 @@ void quantom_free(Quantom_register *q) {
         return;
     }
 
+    if (q->circuit != NULL) {
+        struct circuitListNode *node = q->circuit->head;
+        while (node != NULL) {
+            struct circuitListNode *next = node->next;
+            free(node->gate);
+            free(node);
+            node = next;
+        }
+        free(q->circuit);
+    }
     free(q->state);
     free(q);
 }
@@ -64,6 +74,8 @@ Quantom_register *quantom_reg_create(int num_of_qubits) {
     q-> circuit =createList();
     
     if(q->circuit == NULL){
+        free(q->state);
+        free(q);
         return NULL;
     }
 

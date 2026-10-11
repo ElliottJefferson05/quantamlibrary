@@ -1,115 +1,240 @@
 #include <math.h>
+#include <limits.h>
 #include <stddef.h>
 #include "grover_operations.h"
 #include "core_operations.h"
 
-void MCZ(Quantom_register *Q)
+static int valid_search_length(int search_length)
 {
-    if (Q == NULL || Q->state == NULL)
-    {
-        return;
-    }
-
-    Q->state[((Q->state_size) - 1)].real *= -1.0;
-    Q->state[((Q->state_size) - 1)].imaginary *= -1.0;
+    return search_length > 0 && search_length < 31;
 }
 
-void Oracle(Quantom_register *Q, int target)
+static int valid_search_register(Quantom_register *Q, int search_length, int ancilla_start)
 {
-
-    if (Q == NULL || Q->state == NULL)
-    {
-        return;
-    }
-
-    if (target < 0 || target >= Q->state_size)
-    {
-        return;
-    }
-
-    for (int q = 0; q < Q->num_of_qbits; q++)
-    {
-        int target_bit = 1 << q;
-
-        if ((target & target_bit) == 0)
-        {
-            quantom_X(Q, q);
-        }
-    }
-
-    MCZ(Q);
-
-    for (int q = 0; q < Q->num_of_qbits; q++)
-    {
-        int target_bit = 1 << q;
-
-        if ((target & target_bit) == 0)
-        {
-            quantom_X(Q, q);
-        }
-    }
-}
-
-void diffusion(Quantom_register *Q)
-{
-
-    if (Q == NULL || Q->state == NULL)
-    {
-        return;
-    }
-
-    Complex average = complex_initiliaze(0.0, 0.0);
-
-    for (int i = 0; i < Q->state_size; i++)
-    {
-        average = complex_add(average, Q->state[i]);
-    }
-
-    average.real /= Q->state_size;
-    average.imaginary /= Q->state_size;
-
-    for (int i = 0; i < Q->state_size; i++)
-    {
-        Q->state[i].real = (2.0 * average.real) - Q->state[i].real;
-        Q->state[i].imaginary = (2.0 * average.imaginary) - Q->state[i].imaginary;
-    }
-}
-
-int grover_iterations_calculate(Quantom_register *q)
-{
-
-    if (q == NULL)
+    if (Q == NULL || Q->state == NULL || Q->circuit == NULL ||
+        !valid_search_length(search_length) ||
+        !valid_search_length(Q->num_of_qbits) ||
+        search_length > Q->num_of_qbits ||
+        Q->state_size != (1 << Q->num_of_qbits))
     {
         return 0;
     }
 
-    double N = (double)q->state_size;
+    if (search_length > 3)
+    {
+        int ancilla_count = search_length - 3;
+        if (ancilla_start < search_length || ancilla_start > Q->num_of_qbits ||
+            ancilla_count > Q->num_of_qbits - ancilla_start)
+        {
+            return 0;
+        }
+    }
 
-    int iterations = (int)((3.141592653589793 / 4.0) * sqrt(N));
+    return 1;
+}
+
+void MCZ_all(Quantom_register *Q, int search_length, int ancilla_start)
+{
+    if (!valid_search_register(Q, search_length, ancilla_start))
+    {
+        return;
+    }
+
+    int target = 0;
+
+    if (search_length == 1)
+    {
+        quantom_hadamard(Q, target);
+
+        quantom_X(Q, target);
+
+        quantom_hadamard(Q, target);
+
+        return;
+    }
+
+    if (search_length == 2)
+    {
+        quantom_hadamard(Q, target);
+
+        quantom_CNOT(Q, 1, target);
+
+        quantom_hadamard(Q, target);
+
+        return;
+    }
+
+    if (search_length == 3)
+    {
+        quantom_hadamard(Q, target);
+
+        Toffoli(Q, 1, 2, target);
+
+        quantom_hadamard(Q, target);
+
+        return;
+    }
+
+    quantom_hadamard(Q, target);
+
+    Toffoli(Q, 1, 2, ancilla_start);
+
+    for (int i = 3; i < search_length - 1; i++)
+    {
+        int previous_ancilla = ancilla_start + i - 3;
+        int next_ancilla = ancilla_start + i - 2;
+
+        Toffoli(Q, previous_ancilla, i, next_ancilla);
+    }
+
+    int final_ancilla = ancilla_start + search_length - 4;
+
+    Toffoli(Q, final_ancilla, search_length - 1, target);
+
+    for (int i = search_length - 2; i >= 3; i--)
+    {
+        int previous_ancilla = ancilla_start + i - 3;
+        int next_ancilla = ancilla_start + i - 2;
+
+        Toffoli(Q, previous_ancilla, i, next_ancilla);
+    }
+
+    Toffoli(Q, 1, 2, ancilla_start);
+
+    quantom_hadamard(Q, target);
+}
+
+void Oracle(Quantom_register *Q, int target, int search_length, int ancilla_start)
+{
+    if (!valid_search_register(Q, search_length, ancilla_start))
+    {
+        return;
+    }
+
+    int search_state_size = 1 << search_length;
+
+    if (target < 0 || target >= search_state_size)
+    {
+        return;
+    }
+
+    for (int q = 0; q < search_length; q++)
+    {
+        int target_bit = 1 << q;
+
+        if ((target & target_bit) == 0)
+        {
+            quantom_X(Q, q);
+        }
+    }
+
+    MCZ_all(Q, search_length, ancilla_start);
+
+    for (int q = 0; q < search_length; q++)
+    {
+        int target_bit = 1 << q;
+
+        if ((target & target_bit) == 0)
+        {
+            quantom_X(Q, q);
+        }
+    }
+}
+
+void diffusion(Quantom_register *Q, int search_length, int ancilla_start)
+{
+    if (!valid_search_register(Q, search_length, ancilla_start))
+    {
+        return;
+    }
+
+    for (int q = 0; q < search_length; q++)
+    {
+        quantom_hadamard(Q, q);
+    }
+
+    for (int q = 0; q < search_length; q++)
+    {
+        quantom_X(Q, q);
+    }
+
+    MCZ_all(Q, search_length, ancilla_start);
+
+    for (int q = 0; q < search_length; q++)
+    {
+        quantom_X(Q, q);
+    }
+
+    for (int q = 0; q < search_length; q++)
+    {
+        quantom_hadamard(Q, q);
+    }
+}
+
+int grover_iterations_calculate(int search_length)
+{
+    if (!valid_search_length(search_length))
+    {
+        return 0;
+    }
+
+    double N = (double)(1 << search_length);
+
+    double theta = asin(1.0 / sqrt(N));
+    int iterations = (int)floor(acos(-1.0) / (4.0 * theta));
 
     return iterations;
 }
 
-void Grover(Quantom_register *q, int target_index)
+Quantom_register *Grover(int search_length, int target)
 {
-
-    if (q == NULL || q->state == NULL)
+    if (!valid_search_length(search_length))
     {
-        return;
+        return NULL;
     }
 
-    if (target_index < 0 || target_index >= q->state_size)
+    int ancilla_count = 0;
+
+    if (search_length > 3)
     {
-        return;
+        ancilla_count = search_length - 3;
     }
 
-    int iterations = grover_iterations_calculate(q);
+    int ancilla_start = search_length;
 
-    Hadamar_all(q);
+    int required_qubits = search_length + ancilla_count;
+
+    if (!valid_search_length(required_qubits))
+    {
+        return NULL;
+    }
+
+    int search_state_size = 1 << search_length;
+
+    if (target < 0 || target >= search_state_size)
+    {
+        return NULL;
+    }
+
+    Quantom_register *Q = quantom_reg_create(required_qubits);
+    if (Q == NULL)
+    {
+        return NULL;
+    }
+
+    int iterations = grover_iterations_calculate(search_length);
+
+    for (int q = 0; q < search_length; q++)
+    {
+        quantom_hadamard(Q, q);
+    }
 
     for (int i = 0; i < iterations; i++)
     {
-        Oracle(q, target_index);
-        diffusion(q);
+        Oracle(Q, target, search_length, ancilla_start);
+
+        diffusion(Q, search_length, ancilla_start);
     }
+
+    return Q;
 }

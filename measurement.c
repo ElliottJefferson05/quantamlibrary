@@ -11,7 +11,7 @@ double Calculate_probability(Complex a) {
 
 
 
-double Propabilty_total(Quantom_register *q, int target, int bit) {
+double Propabilty_total(const Quantom_register *q, int target, int bit) {
 
     if (q == NULL || q->state == NULL) {
         return -1.0;
@@ -88,4 +88,21 @@ void Output_resut(Quantom_register *q,int amount,int target){
     
 
 
+}
+
+void quantom_print_probabilities(const Quantom_register *q)
+{
+    if (q == NULL || q->state == NULL)
+    {
+        return;
+    }
+
+    for (int qubit = 0; qubit < q->num_of_qbits; qubit++)
+    {
+        double probability_zero = Propabilty_total(q, qubit, 0);
+        double probability_one = Propabilty_total(q, qubit, 1);
+
+        printf("Qubit %d: P(0) = %.6f%%, P(1) = %.6f%%\n",
+               qubit, 100.0 * probability_zero, 100.0 * probability_one);
+    }
 }
